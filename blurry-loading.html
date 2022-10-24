@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blurry Loading</title>
+
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap");
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Roboto", sans-serif;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+        overflow: hidden;
+        margin: 0;
+      }
+
+      .blur-bg {
+        background: url("./bg.jpg") no-repeat center center/cover;
+        position: absolute;
+        top: 0px;
+        left: 0px;
+        width: 100vw;
+        height: 100vh;
+        z-index: -1;
+        filter: blur(0px);
+      }
+
+      .loading-text {
+        font-size: 50px;
+        color: black;
+      }
+    </style>
+
+  </head>
+  <body>
+    <section class="blur-bg"></section>
+    <div class="loading-text">0%</div>
+
+    <script>
+      const loadText = document.querySelector(".loading-text");
+      const bg = document.querySelector(".blur-bg");
+
+      let load = 0;
+
+      const blurring = () => {
+        load++;
+
+        if (load > 99) {
+          clearInterval(int);
+        }
+        console.log(load);
+        loadText.innerText = `${load}%`;
+        loadText.style.opacity = scale(load, 0, 100, 1, 0);
+
+        bg.style.filter = `blur(${scale(load, 0, 100, 30, 0)}px)`;
+      };
+      let int = setInterval(blurring, 30);
+
+      const scale = (num, in_min, in_max, out_min, out_max) => {
+        return (
+          ((num - in_min) * (out_max - out_min)) / (in_max - in_min) + out_min
+        );
+      };
+    </script>
+    
+  </body>
+</html>
